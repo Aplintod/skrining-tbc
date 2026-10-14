@@ -18,7 +18,7 @@ window.PUSKESMAS_CONFIG = {
     alamat: "Jl. Ir. H. Nusyirwan Ismail, M.Si. (Ring Road 2) RT. 15 (Belakang SMKN 15), Kelurahan Lok Bahu, Kecamatan Sungai Kunjang, Kota Samarinda, Kalimantan Timur 75129",
 
     // Jam pelayanan skrining & lab dahak TCM
-    jamLayanan: "Senin \u2013 Sabtu, 08.00 \u2013 14.00 WITA",
+    jamLayanan: "Senin \u2013 Sabtu, 07.30 \u2013 12.00 WITA",
 
     // ============================================================
     //  KONFIGURASI GOOGLE SHEETS (via Google Apps Script)
