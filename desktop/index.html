@@ -13,26 +13,7 @@
     <link rel="stylesheet" href="../assets/css/desktop.css" />
 </head>
 <body x-data="{
-    posters: [
-        {
-            title: 'Kenali Gejala Utama TBC',
-            desc: 'Batuk terus menerus lebih dari 2 minggu, demam hilang timbul, berkeringat di malam hari, dan berat badan menurun.',
-            img: '../assets/img/poster-gejala.png',
-            placeholder: 'Poster 1: Gejala TBC'
-        },
-        {
-            title: 'Penularan Lewat Udara (Droplet)',
-            desc: 'Kuman TBC menular saat penderita batuk atau bersin tanpa masker. Kontak serumah dan kontak erat berisiko tinggi.',
-            img: '../assets/img/poster-penularan.png',
-            placeholder: 'Poster 2: Penularan TBC'
-        },
-        {
-            title: 'TOSS TBC: Temukan & Obati Sampai Sembuh',
-            desc: 'Pemeriksaan dahak TCM dan paket obat TBC di Puskesmas disediakan GRATIS oleh pemerintah hingga tuntas.',
-            img: '../assets/img/poster-pencegahan.png',
-            placeholder: 'Poster 3: Pencegahan TBC'
-        }
-    ]
+    showPosterModal: false
 }">
 
     <!-- Top Navigation Bar -->
@@ -216,32 +197,75 @@
         </div>
 
         <!-- 3. POSTER EDUKASI GRID -->
+        <!-- 3. FEATURED POSTER RESMI EDUKASI TBC -->
         <section id="edukasi" class="mb-10">
             <div class="section-divider">
-                <h2>Materi & Poster Edukasi Tuberkulosis</h2>
+                <h2>Infografis & Poster Edukasi Tuberkulosis</h2>
             </div>
 
-            <div class="grid-3">
-                <template x-for="(post, idx) in posters" :key="idx">
-                    <div class="poster-card">
-                        <img :src="post.img" :alt="post.title"
-                             @error="$el.style.display='none'; $el.nextElementSibling.classList.remove('hidden')" />
-
-                        <!-- Fallback jika poster belum ditaruh di folder img -->
-                        <div class="poster-placeholder hidden">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            <div class="featured-poster-card">
+                <div class="featured-poster-layout">
+                    <!-- Sisi Kiri: Poster Frame (Rasio 1414 x 2000 Terjaga) -->
+                    <div class="featured-poster-frame" @click="showPosterModal = true">
+                        <img src="../assets/img/postertb.png" alt="Poster Edukasi Tuberkulosis FKM UNMUL" class="featured-poster-img" />
+                        <div class="poster-zoom-hint">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
                             </svg>
-                            <p class="font-bold text-sm" x-text="post.placeholder"></p>
-                            <span class="text-xs text-teal-200">Taruh poster di folder assets/img/</span>
-                        </div>
-
-                        <div class="poster-caption">
-                            <h3 class="font-bold text-teal-900" x-text="post.title"></h3>
-                            <p class="text-xs text-gray-500 leading-relaxed" x-text="post.desc"></p>
+                            <span>Klik untuk Perbesar HD</span>
                         </div>
                     </div>
-                </template>
+
+                    <!-- Sisi Kanan: Ulasan & Rangkuman Materi Poster -->
+                    <div>
+                        <div class="inline-flex items-center gap-2 bg-teal-50 border border-teal-200 px-3 py-1.5 rounded-full text-xs font-bold text-teal-800 mb-3">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                            <span>Materi Edukasi FKM Universitas Mulawarman</span>
+                        </div>
+
+                        <h3 class="text-2xl font-extrabold text-teal-900 mb-2 leading-tight">
+                            Mengenal Tuberkulosis: Gejala, Faktor Risiko & Pencegahan
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-5 leading-relaxed">
+                            Tuberkulosis (TBC) adalah penyakit menular yang disebabkan bakteri <em>Mycobacterium tuberculosis</em>. Indonesia menempati urutan <strong>ke-2 di dunia</strong> dengan beban kasus TB tertinggi setelah India (sekitar 1,1 juta kasus per tahun).
+                        </p>
+
+                        <!-- Poin Rangkuman Cepat -->
+                        <div class="space-y-3 mb-6 bg-teal-50/50 p-4 rounded-xl border border-teal-100">
+                            <div class="flex items-start gap-2.5 text-xs text-gray-700">
+                                <span class="font-bold text-rose-600 w-24 shrink-0">Gejala Kunci:</span>
+                                <span>Demam &gt; 2 minggu, penurunan berat badan drastis, keringat berlebih saat tidur, lemas dan mudah capek.</span>
+                            </div>
+                            <div class="flex items-start gap-2.5 text-xs text-gray-700">
+                                <span class="font-bold text-amber-700 w-24 shrink-0">Faktor Risiko:</span>
+                                <span>Lingkungan padat, Diabetes Melitus, ODHIV, perokok aktif, balita (&lt; 5 tahun), dan lansia.</span>
+                            </div>
+                            <div class="flex items-start gap-2.5 text-xs text-gray-700">
+                                <span class="font-bold text-emerald-700 w-24 shrink-0">Pencegahan:</span>
+                                <span>Ventilasi & sinar matahari, etika batuk/bersin, gizi seimbang, vaksin BCG pada anak, hindari kontak tanpa masker.</span>
+                            </div>
+                        </div>
+
+                        <!-- Tombol Aksi -->
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button type="button" @click="showPosterModal = true" class="btn btn-primary">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+                                </svg>
+                                <span>Lihat Poster Ukuran Penuh (HD)</span>
+                            </button>
+
+                            <a href="../assets/img/postertb.png" download="Poster-Edukasi-TBC.png" class="btn btn-secondary">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                                <span>Unduh Poster</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -307,6 +331,22 @@
         <p>Aplikasi Skrining TBC Digital Mandiri • Berdasarkan Pedoman Skrining Sistematik Kemenkes RI</p>
         <p class="mt-1 text-gray-400">Puskesmas Rujukan Setempat • Terhubung Langsung dengan Layanan WhatsApp Petugas TB</p>
     </footer>
+
+    <!-- Lightbox Modal untuk Zoom Poster HD -->
+    <div x-show="showPosterModal" x-cloak
+         class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-6"
+         @keydown.escape.window="showPosterModal = false"
+         @click.self="showPosterModal = false">
+        <div class="relative max-w-4xl max-h-[94vh] flex flex-col items-center">
+            <button @click="showPosterModal = false" class="self-end mb-2 text-white hover:text-teal-300 font-bold text-xs flex items-center gap-1.5 bg-white/20 hover:bg-white/30 px-3.5 py-1.5 rounded-full transition shadow-lg">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                <span>Tutup (ESC)</span>
+            </button>
+            <img src="../assets/img/postertb.png" alt="Poster Edukasi TBC Resolusi Tinggi" class="max-h-[85vh] w-auto rounded-xl shadow-2xl object-contain bg-white" />
+        </div>
+    </div>
 
 </body>
 </html>

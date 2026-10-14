@@ -191,50 +191,48 @@ small { font-size: 0.75rem; }
     background: linear-gradient(90deg, var(--teal-100), transparent);
 }
 
-/* ── POSTER CAROUSEL ──────────────────────────────────────── */
-.carousel-wrap {
-    position: relative; overflow: hidden;
+/* ── FEATURED POSTER MOBILE ───────────────────────────────── */
+[x-cloak] { display: none !important; }
+
+.featured-poster-mobile {
+    background: white;
     border-radius: var(--radius-md);
-    background: var(--teal-900);
-}
-.carousel-track {
-    display: flex; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-.carousel-slide {
-    flex: 0 0 100%; position: relative;
-    aspect-ratio: 16/9;
+    border: 1.5px solid var(--teal-100);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
+    padding: 14px;
 }
-.carousel-slide img {
-    width: 100%; height: 100%; object-fit: cover;
+.featured-poster-frame-m {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--teal-200);
+    background: #f8fafc;
+    cursor: pointer;
+}
+.featured-poster-img-m {
+    width: 100%;
+    height: auto;
     display: block;
+    aspect-ratio: 1414 / 2000;
+    object-fit: contain;
 }
-.carousel-slide .slide-caption {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
-    padding: 12px 14px 10px;
-    color: white; font-size: 0.8rem; font-weight: 600;
-}
-.carousel-placeholder {
-    aspect-ratio: 16/9;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column; gap: 8px;
-    background: linear-gradient(135deg, var(--teal-800), var(--teal-600));
-    color: white; border-radius: var(--radius-md);
-}
-.carousel-placeholder svg { width: 40px; height: 40px; opacity: 0.5; }
-.carousel-placeholder p { font-size: 0.78rem; opacity: 0.7; }
-.carousel-dots {
-    display: flex; justify-content: center; gap: 6px; margin-top: 8px;
-}
-.carousel-dots button {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--gray-300); border: none; cursor: pointer;
-    transition: all 0.2s; padding: 0;
-}
-.carousel-dots button.active {
-    width: 18px; border-radius: 3px;
-    background: var(--teal-600);
+.poster-zoom-hint-m {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(19,78,74,0.9);
+    backdrop-filter: blur(8px);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 /* ── INFO CARD EDUKASI ────────────────────────────────────── */
