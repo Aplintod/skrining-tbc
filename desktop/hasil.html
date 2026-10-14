@@ -109,6 +109,33 @@
         <template x-if="dataSkrining">
             <div class="hasil-layout">
 
+                <!-- ====================================================== -->
+                <!-- KOP SURAT MEDIS RESMI (HANYA MUNCUL DI PDF / CETAK)    -->
+                <!-- ====================================================== -->
+                <div class="print-only print-kop">
+                    <div class="print-kop-header">
+                        <div class="print-kop-logo">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <path d="M12 8v8m-4-4h8"/>
+                            </svg>
+                        </div>
+                        <div class="print-kop-text">
+                            <h3>PEMERINTAH KOTA SAMARINDA • DINAS KESEHATAN</h3>
+                            <h2>PUSKESMAS LOK BAHU</h2>
+                            <p>Jl. Ir. H. Nusyirwan Ismail, M.Si. (Ring Road 2) RT. 15, Kel. Lok Bahu, Kec. Sungai Kunjang, Samarinda 75129</p>
+                            <p>Layanan TCM Dahak: Senin – Sabtu, 08.00 – 14.00 WITA • WhatsApp Pelayanan: +62 857-5355-1401</p>
+                        </div>
+                    </div>
+                    <div class="print-doc-title">
+                        <h1>LEMBAR HASIL SKRINING MANDIRI TUBERKULOSIS (TB)</h1>
+                        <div class="print-doc-meta">
+                            <span>Waktu Pemeriksaan: <strong x-text="tanggalSkriningFormatted"></strong></span>
+                            <span>Sifat Dokumen: <strong>Penapisan Awal Mandiri</strong></span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ---------------------------------------------------------- -->
                 <!-- KOLOM KIRI (UTAMA): STATUS & TINDAK LANJUT MEDIS           -->
                 <!-- ---------------------------------------------------------- -->
@@ -305,6 +332,20 @@
                             <span>Status ODHIV: <strong class="text-gray-700 capitalize" x-text="pasien.odhiv || 'Tidak'"></strong></span>
                             <span>Riwayat DM: <strong class="text-gray-700 capitalize" x-text="pasien.dm || 'Tidak'"></strong></span>
                             <span>Pernah Berobat TB: <strong class="text-gray-700" x-text="pasien.riwayatTBC ? 'Ya' : 'Tidak'"></strong></span>
+                        </div>
+                    </div>
+
+                    <!-- ====================================================== -->
+                    <!-- FOOTER & VALIDASI MEDIS (HANYA MUNCUL DI PDF / CETAK)  -->
+                    <!-- ====================================================== -->
+                    <div class="print-only print-footer-note">
+                        <div class="print-faskes-box">
+                            <strong>FASILITAS PELAYANAN KESEHATAN RUJUKAN:</strong><br>
+                            <strong>Puskesmas Lok Bahu</strong> • Jl. Ir. H. Nusyirwan Ismail, M.Si. (Ring Road 2) RT. 15, Kelurahan Lok Bahu, Samarinda.<br>
+                            Pelayanan Tes Cepat Molekuler (TCM) Dahak & Paket Obat TB disediakan <strong>GRATIS</strong> oleh pemerintah hingga tuntas.
+                        </div>
+                        <div class="print-disclaimer">
+                            *Catatan Medis: Dokumen ini diterbitkan secara elektronik oleh Sistem Skrining TB Digital Puskesmas Lok Bahu berdasarkan penapisan mandiri keluhan gejala dan faktor risiko responden. Lembar ini merupakan penapisan awal, bukan diagnosis laboratorium definitif. Bagi responden dengan hasil Terduga TB, segera lakukan pemeriksaan dahak TCM ke Puskesmas Lok Bahu.
                         </div>
                     </div>
 
