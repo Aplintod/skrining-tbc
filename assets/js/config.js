@@ -27,7 +27,7 @@ window.PUSKESMAS_CONFIG = {
     // Ganti dengan URL Web App GAS lo setelah deploy
     // Contoh: "https://script.google.com/macros/s/AKfyc.../exec"
     // Biarkan string kosong ("") jika belum diatur / tidak dipakai
-    gasEndpointURL: "",
+    gasEndpointURL: "https://script.google.com/macros/s/AKfycbza0met0LA34padiJ3i3gwjt_d0065sm_ff8-CQiw_W6gdOH26WM2P2608oJKkhNt1g/exec",
 
     // Fungsi generate pesan WhatsApp otomatis (jangan diubah)
     buatPesanWhatsApp(dataPasien, hasil) {
