@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulir Skrining TBC Digital — Desktop</title>
-    <meta name="description" content="Formulir skrining mandiri TBC digital Kemenkes RI tampilan desktop interaktif." />
+    <title>Formulir Skrining TB Digital — Desktop</title>
+    <meta name="description" content="Formulir skrining mandiri TB digital Puskesmas Lok Bahu tampilan desktop interaktif." />
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Helper JS (harus dimuat SEBELUM Alpine.js) -->
@@ -164,8 +164,8 @@
                     </svg>
                 </div>
                 <div class="brand-text">
-                    <h1 class="font-bold">Skrining TBC Digital</h1>
-                    <p>Formulir Skrining Mandiri Kemenkes RI</p>
+                    <h1 class="font-bold">Skrining TB Digital</h1>
+                    <p>Formulir Pemeriksaan Mandiri</p>
                 </div>
             </a>
 
@@ -227,7 +227,7 @@
                         <div class="step" :class="{ 'active': step === 3 }">
                             <div class="step-circle-d"><span>3</span></div>
                             <div class="step-meta">
-                                <div class="step-name">Kuisioner Gejala TBC</div>
+                                <div class="step-name">Kuisioner Gejala TB</div>
                                 <div class="step-desc" x-text="formData.kategoriUsia === 'anak' ? 'Cabang Gejala Anak (< 15 Th)' : 'Cabang Gejala Dewasa (≥ 15 Th)'"></div>
                             </div>
                         </div>
@@ -250,7 +250,7 @@
                         <svg class="w-4 h-4 text-teal-600 inline shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <span>Petunjuk Pengisian</span>
                     </h4>
-                    <p>Isi kuesioner dengan kondisi sebenar-benarnya. Data Anda dijamin kerahasiaannya dan digunakan semata-mata untuk penapisan awal risiko TBC.</p>
+                    <p>Isi kuesioner dengan kondisi sebenar-benarnya. Data Anda dijamin kerahasiaannya dan digunakan semata-mata untuk penapisan awal risiko TB.</p>
                 </div>
             </aside>
 
@@ -334,15 +334,15 @@
                     <div class="card-teal-bar -m-6 mb-6"></div>
                     <div class="mb-6">
                         <h2 class="text-xl font-bold text-teal-900">Langkah 2: Riwayat Kontak & Faktor Risiko</h2>
-                        <p class="text-sm text-gray-500 mt-1">Identifikasi paparan kuman TBC dan faktor kerentanan kondisi tubuh.</p>
+                        <p class="text-sm text-gray-500 mt-1">Identifikasi paparan kuman TB dan faktor kerentanan kondisi tubuh.</p>
                     </div>
 
-                    <!-- Riwayat Kontak TBC -->
+                    <!-- Riwayat Kontak TB -->
                     <div class="form-section">
-                        <div class="form-section-title"><span>1. Riwayat Kontak Pasien TBC</span></div>
+                        <div class="form-section-title"><span>1. Riwayat Kontak Pasien TB</span></div>
 
                         <div class="form-group">
-                            <label class="form-label font-bold">Apakah pernah kontak dengan orang yang menderita TBC? <span class="req">*</span></label>
+                            <label class="form-label font-bold">Apakah pernah kontak dengan orang yang menderita TB? <span class="req">*</span></label>
                             <div class="toggle-group" style="max-width:400px">
                                 <button type="button" class="toggle-btn btn-ya" :class="{ 'active': formData.riwayatKontak === 'ya' }" @click="formData.riwayatKontak = 'ya'">Ya</button>
                                 <button type="button" class="toggle-btn btn-tidak" :class="{ 'active': formData.riwayatKontak === 'tidak' }" @click="formData.riwayatKontak = 'tidak'; formData.jenisKontak = ''">Tidak</button>
@@ -377,8 +377,8 @@
                                 </label>
                             </div>
                             <div class="form-group mt-3">
-                                <label class="form-label">Nama Kasus Indeks / Penderita TBC <span class="opt">(Opsional jika tahu)</span></label>
-                                <input type="text" class="form-input" style="max-width:400px" x-model="formData.namaKasusIndeks" placeholder="Nama orang yang menderita TBC" />
+                                <label class="form-label">Nama Kasus Indeks / Penderita TB <span class="opt">(Opsional jika tahu)</span></label>
+                                <input type="text" class="form-input" style="max-width:400px" x-model="formData.namaKasusIndeks" placeholder="Nama orang yang menderita TB" />
                             </div>
                         </div>
                     </div>
@@ -414,7 +414,7 @@
                         <div class="space-y-3">
 
                             <div class="gejala-item">
-                                <div class="q-text">Apakah pernah berobat atau terdiagnosis TBC sebelumnya?</div>
+                                <div class="q-text">Apakah pernah berobat atau terdiagnosis TB sebelumnya?</div>
                                 <div class="toggle-group">
                                     <button type="button" class="toggle-btn btn-ya" :class="{ 'active': formData.riwayatTBC === true }" @click="formData.riwayatTBC = true">Ya</button>
                                     <button type="button" class="toggle-btn btn-tidak" :class="{ 'active': formData.riwayatTBC === false }" @click="formData.riwayatTBC = false">Tidak</button>
@@ -422,7 +422,7 @@
                             </div>
 
                             <div x-show="formData.riwayatTBC === true" class="gejala-item" style="background:#fffbeb;border-color:#fde68a">
-                                <div class="q-text">Apakah pernah berobat TBC tapi putus atau tidak tuntas?</div>
+                                <div class="q-text">Apakah pernah berobat TB tapi putus atau tidak tuntas?</div>
                                 <div class="toggle-group">
                                     <button type="button" class="toggle-btn btn-ya" :class="{ 'active': formData.putusObat === true }" @click="formData.putusObat = true">Ya</button>
                                     <button type="button" class="toggle-btn btn-tidak" :class="{ 'active': formData.putusObat === false }" @click="formData.putusObat = false">Tidak</button>
@@ -523,7 +523,7 @@
                     <div x-show="formData.kategoriUsia === 'anak'" class="space-y-4">
                         <div class="border-b border-gray-100 pb-3">
                             <h3 class="font-bold text-gray-800 text-base">Evaluasi Gejala Klinis Anak</h3>
-                            <p class="text-xs text-gray-500 mt-1">Pada anak, gejala TBC sering berupa berat badan sulit naik, demam berkepanjangan, atau batuk kronis.</p>
+                            <p class="text-xs text-gray-500 mt-1">Pada anak, gejala TB sering berupa berat badan sulit naik, demam berkepanjangan, atau batuk kronis.</p>
                         </div>
 
                         <div class="gejala-item" :class="{ 'active-ya': formData.batukAnak === true, 'active-tidak': formData.batukAnak === false }">
@@ -577,7 +577,7 @@
                                 <label class="radio-card highlight-card" :class="{ 'selected': formData.statusBatuk === 'batuk_lebih2' }">
                                     <input type="radio" name="batuk_d" value="batuk_lebih2" x-model="formData.statusBatuk" />
                                     <div class="radio-indicator"></div>
-                                    <div><div class="card-label" style="color:#e11d48;font-weight:700">Batuk ≥ 2 Minggu</div><div class="card-sub" style="color:#f43f5e">Indikator kuat Terduga TBC</div></div>
+                                    <div><div class="card-label" style="color:#e11d48;font-weight:700">Batuk ≥ 2 Minggu</div><div class="card-sub" style="color:#f43f5e">Indikator kuat Terduga TB</div></div>
                                 </label>
                             </div>
                         </div>

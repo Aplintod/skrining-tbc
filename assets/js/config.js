@@ -5,20 +5,20 @@
 
 window.PUSKESMAS_CONFIG = {
     // Nama resmi Puskesmas
-    namaPuskesmas: "Puskesmas Rujukan Setempat",
+    namaPuskesmas: "Puskesmas Lok Bahu",
 
-    // Nama petugas atau jabatan program TBC
-    namaPetugas: "Petugas Program TBC",
+    // Nama petugas atau jabatan program TB
+    namaPetugas: "Petugas TB Puskesmas Lok Bahu",
 
     // Nomor WhatsApp petugas (format internasional, tanpa + atau spasi)
     // Contoh: 6281234567890
-    nomorWA: "6281234567890",
+    nomorWA: "6285753551401",
 
     // Alamat lengkap Puskesmas
-    alamat: "Jl. Kesehatan Masyarakat No. 10",
+    alamat: "Jl. Ir. H. Nusyirwan Ismail, M.Si. (Ring Road 2) RT. 15 (Belakang SMKN 15), Kelurahan Lok Bahu, Kecamatan Sungai Kunjang, Kota Samarinda, Kalimantan Timur 75129",
 
     // Jam pelayanan skrining & lab dahak TCM
-    jamLayanan: "Senin \u2013 Sabtu, 08.00 \u2013 14.00 WIB",
+    jamLayanan: "Senin \u2013 Sabtu, 08.00 \u2013 14.00 WITA",
 
     // ============================================================
     //  KONFIGURASI GOOGLE SHEETS (via Google Apps Script)
@@ -31,7 +31,7 @@ window.PUSKESMAS_CONFIG = {
 
     // Fungsi generate pesan WhatsApp otomatis (jangan diubah)
     buatPesanWhatsApp(dataPasien, hasil) {
-        let teks = `Halo Petugas ${this.namaPuskesmas}, saya telah mengisi formulir Skrining TBC Mandiri melalui website.%0A%0A`;
+        let teks = `Halo Petugas ${this.namaPuskesmas}, saya telah mengisi formulir Skrining TB Mandiri melalui website.%0A%0A`;
         teks += `*Ringkasan Data Skrining:*%0A`;
         teks += `\u2022 Nama: ${dataPasien.nama || "-"}%0A`;
         teks += `\u2022 Tanggal Lahir: ${dataPasien.tanggalLahir || "-"} (${dataPasien.usia || "-"} Tahun)%0A`;
@@ -41,7 +41,7 @@ window.PUSKESMAS_CONFIG = {
         if (hasil.alasan && hasil.alasan.length > 0) {
             teks += `\u2022 Gejala / Indikasi: ${hasil.alasan.join(", ")}%0A`;
         }
-        teks += `\u2022 Riwayat Kontak TBC: ${dataPasien.riwayatKontak === "ya" ? (dataPasien.jenisKontak === "serumah" ? "Kontak Serumah" : "Kontak Erat") : "Tidak Ada"}%0A`;
+        teks += `\u2022 Riwayat Kontak TB: ${dataPasien.riwayatKontak === "ya" ? (dataPasien.jenisKontak === "serumah" ? "Kontak Serumah" : "Kontak Erat") : "Tidak Ada"}%0A`;
         teks += `%0AMohon arahan dan informasi mengenai jadwal pemeriksaan dahak (TCM) di ${this.namaPuskesmas}. Terima kasih.`;
         return teks;
     },
@@ -89,7 +89,7 @@ window.PUSKESMAS_CONFIG = {
             wbp: dataPasien.wbp ? "Ya" : "Tidak",
             padatKumuh: dataPasien.padatKumuh ? "Ya" : "Tidak",
             hasilDiagnosis: hasil.label || "",
-            statusTerduga: hasil.terduga ? "TERDUGA TBC" : "BUKAN TERDUGA TBC",
+            statusTerduga: hasil.terduga ? "TERDUGA TB" : "BUKAN TERDUGA TB",
             alasanGejala: (hasil.alasan || []).join("; "),
         };
 

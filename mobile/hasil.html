@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Hasil Skrining TBC Digital — Mobile</title>
-    <meta name="description" content="Hasil evaluasi skrining mandiri TBC dan rujukan pemeriksaan puskesmas." />
+    <title>Hasil Skrining TB Digital — Mobile</title>
+    <meta name="description" content="Hasil evaluasi skrining mandiri TB dan rujukan pemeriksaan Puskesmas Lok Bahu." />
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Helper JS (harus SEBELUM Alpine.js) -->
@@ -33,15 +33,15 @@
             },
 
             bagikanHasilWA() {
-                const statusText = this.hasil.terduga ? 'TERDUGA TBC' : 'BUKAN TERDUGA TBC';
-                let text = `Halo, saya baru saja melakukan Skrining Mandiri TBC Digital.%0A`;
+                const statusText = this.hasil.terduga ? 'TERDUGA TB' : 'BUKAN TERDUGA TB';
+                let text = `Halo, saya baru saja melakukan Skrining Mandiri TB Digital.%0A`;
                 text += `Hasil Skrining: *${statusText}*%0A`;
                 if (this.hasil.terduga) {
-                    text += `Disarankan pemeriksaan dahak TCM di Puskesmas terdekat.%0A`;
+                    text += `Disarankan pemeriksaan dahak TCM di Puskesmas Lok Bahu.%0A`;
                 } else {
                     text += `Kondisi aman. Tetap terapkan pola hidup sehat dan etika batuk.%0A`;
                 }
-                text += `Skrining mandiri gratis dapat diakses melalui website skrining TBC.`;
+                text += `Skrining mandiri gratis dapat diakses melalui website skrining TB.`;
                 window.open(`https://wa.me/?text=${text}`, '_blank');
             }
         };
@@ -62,10 +62,10 @@
             </svg>
         </a>
         <div class="title-wrap">
-            <h1 class="font-bold">Hasil Skrining TBC</h1>
+            <h1 class="font-bold">Hasil Skrining TB</h1>
             <p>Rekomendasi Tindak Lanjut Medis</p>
         </div>
-        <span class="badge-kemenkes">Hasil Resmi</span>
+        <span class="badge-kemenkes">Puskesmas Lok Bahu</span>
     </header>
 
     <main class="page-pad space-y-4">
@@ -80,7 +80,7 @@
                 </svg>
             </div>
             <h2 class="text-gray-800 font-bold text-base">Belum Ada Riwayat Skrining</h2>
-            <p class="text-xs text-gray-500">Anda belum mengisi formulir skrining mandiri TBC atau sesi Anda telah berakhir.</p>
+            <p class="text-xs text-gray-500">Anda belum mengisi formulir skrining mandiri TB atau sesi Anda telah berakhir.</p>
             <a href="form.html" class="btn btn-primary">Mulai Skrining Sekarang</a>
         </div>
 
@@ -110,12 +110,12 @@
                         </div>
 
                         <!-- Status Label -->
-                        <h2 class="status-judul" :class="hasil.terduga ? 'merah' : 'hijau'" x-text="hasil.terduga ? 'TERDUGA TBC' : 'BUKAN TERDUGA TBC'"></h2>
+                        <h2 class="status-judul" :class="hasil.terduga ? 'merah' : 'hijau'" x-text="hasil.terduga ? 'TERDUGA TB' : 'BUKAN TERDUGA TB'"></h2>
                         
                         <!-- Penjelasan Singkat -->
                         <p class="status-sub" x-text="hasil.terduga 
-                            ? 'Berdasarkan gejala yang dilaporkan, Anda memenuhi kriteria Terduga TBC (Suspek TBC) sesuai standar Kemenkes RI.' 
-                            : 'Saat ini Anda tidak memenuhi kriteria Terduga TBC. Tetap terapkan pola hidup sehat dan etika batuk.'">
+                            ? 'Berdasarkan gejala yang dilaporkan, Anda memenuhi kriteria Terduga TB (Suspek TB) untuk tindak lanjut pemeriksaan faskes.' 
+                            : 'Saat ini Anda tidak memenuhi kriteria Terduga TB. Tetap terapkan pola hidup sehat dan etika batuk.'">
                         </p>
                     </div>
 
@@ -175,7 +175,7 @@
                                 <svg class="w-5 h-5 fill-current mr-1" viewBox="0 0 24 24">
                                     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
                                 </svg>
-                                <span>Hubungi Petugas via WhatsApp</span>
+                                <span>Hubungi WA Puskesmas Lok Bahu</span>
                             </a>
                             <p class="text-[11px] text-gray-400 text-center mt-1.5">Pesan otomatis berisi ringkasan hasil skrining Anda siap dikirim.</p>
                         </div>
@@ -199,7 +199,7 @@
                                 </div>
                                 <div>
                                     <strong class="text-gray-800 text-xs block">Pemeriksaan Dahak (Tes Cepat Molekuler / TCM)</strong>
-                                    <p class="text-[11px] text-gray-500">Segera datang ke Puskesmas. Pemeriksaan dahak dan pengobatan TBC disediakan <strong>GRATIS</strong> oleh pemerintah.</p>
+                                    <p class="text-[11px] text-gray-500">Segera datang ke Puskesmas Lok Bahu. Pemeriksaan dahak dan pengobatan TB disediakan <strong>GRATIS</strong> oleh pemerintah.</p>
                                 </div>
                             </li>
                             <li>
@@ -221,7 +221,7 @@
                                 </div>
                                 <div>
                                     <strong class="text-gray-800 text-xs block">Buka Ventilasi Rumah & Sinar Matahari</strong>
-                                    <p class="text-[11px] text-gray-500">Bakteri TBC mati oleh sinar ultraviolet matahari. Pastikan jendela dibuka setiap pagi hari.</p>
+                                    <p class="text-[11px] text-gray-500">Bakteri TB mati oleh sinar ultraviolet matahari. Pastikan jendela dibuka setiap pagi hari.</p>
                                 </div>
                             </li>
                             <li>

@@ -68,7 +68,7 @@ window.evaluasiDiagnosis = function(data) {
 
     return {
         terduga,
-        label: terduga ? "Terduga TBC" : "Bukan Terduga TBC",
+        label: terduga ? "Terduga TB" : "Bukan Terduga TB",
         warna: terduga ? "merah" : "hijau",
         alasan,
         kategoriUsia: data.kategoriUsia === "anak" ? "Anak (< 15 Tahun)" : "Dewasa (\u2265 15 Tahun)",

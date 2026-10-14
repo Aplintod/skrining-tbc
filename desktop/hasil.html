@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hasil Evaluasi Skrining TBC Digital — Desktop</title>
-    <meta name="description" content="Hasil evaluasi skrining mandiri TBC Kemenkes RI dan rujukan Puskesmas setempat." />
+    <title>Hasil Evaluasi Skrining TB Digital — Puskesmas Lok Bahu</title>
+    <meta name="description" content="Hasil evaluasi skrining mandiri TB dan rujukan Puskesmas Lok Bahu." />
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Helper JS (harus SEBELUM Alpine.js) -->
@@ -33,15 +33,15 @@
             },
 
             bagikanHasilWA() {
-                const statusText = this.hasil.terduga ? 'TERDUGA TBC' : 'BUKAN TERDUGA TBC';
-                let text = `Halo, saya baru saja melakukan Skrining Mandiri TBC Digital.%0A`;
+                const statusText = this.hasil.terduga ? 'TERDUGA TB' : 'BUKAN TERDUGA TB';
+                let text = `Halo, saya baru saja melakukan Skrining Mandiri TB Digital.%0A`;
                 text += `Hasil Skrining: *${statusText}*%0A`;
                 if (this.hasil.terduga) {
-                    text += `Sesuai rekomendasi Kemenkes RI, disarankan pemeriksaan dahak TCM di Puskesmas terdekat.%0A`;
+                    text += `Disarankan untuk melakukan pemeriksaan dahak TCM di Puskesmas Lok Bahu.%0A`;
                 } else {
-                    text += `Kondisi aman / bukan terduga TBC. Tetap terapkan pola hidup bersih dan etika batuk.%0A`;
+                    text += `Kondisi aman / bukan terduga TB. Tetap terapkan pola hidup bersih dan etika batuk.%0A`;
                 }
-                text += `Skrining mandiri gratis dapat diakses melalui website skrining TBC.`;
+                text += `Skrining mandiri gratis dapat diakses melalui website skrining TB.`;
                 window.open(`https://wa.me/?text=${text}`, '_blank');
             }
         };
@@ -64,12 +64,12 @@
                     </svg>
                 </div>
                 <div class="brand-text">
-                    <h1 class="font-bold">Skrining TBC Digital</h1>
-                    <p>Hasil Evaluasi Medis Mandiri</p>
+                    <h1 class="font-bold">Skrining TB Digital</h1>
+                    <p>Hasil Pemeriksaan Mandiri</p>
                 </div>
             </a>
 
-            <span class="nav-badge">HASIL EVALUASI RESMI</span>
+            <span class="nav-badge">PUSKESMAS LOK BAHU</span>
 
             <ul class="nav-links">
                 <li><a href="index.html">‹ Beranda</a></li>
@@ -99,7 +99,7 @@
                 </svg>
             </div>
             <h2 class="text-xl font-bold text-gray-800 mb-2">Belum Ada Riwayat Skrining</h2>
-            <p class="text-sm text-gray-500 mb-6">Anda belum mengisi formulir skrining TBC pada sesi browser ini. Silakan mulai skrining mandiri.</p>
+            <p class="text-sm text-gray-500 mb-6">Anda belum mengisi formulir skrining TB pada sesi browser ini. Silakan mulai skrining mandiri.</p>
             <a href="form.html" class="btn btn-primary btn-lg inline-flex">Mulai Skrining Mandiri Sekarang →</a>
         </div>
 
@@ -129,11 +129,11 @@
                             </template>
                         </div>
 
-                        <h2 class="status-ring-title" :class="hasil.terduga ? 'merah' : 'hijau'" x-text="hasil.terduga ? 'HASIL: TERDUGA TBC' : 'HASIL: BUKAN TERDUGA TBC'"></h2>
+                        <h2 class="status-ring-title" :class="hasil.terduga ? 'merah' : 'hijau'" x-text="hasil.terduga ? 'HASIL: TERDUGA TB' : 'HASIL: BUKAN TERDUGA TB'"></h2>
 
                         <p class="status-desc" x-text="hasil.terduga 
-                            ? 'Berdasarkan gejala klinis yang dilaporkan, Anda memenuhi kriteria Terduga TBC (Suspek TBC) sesuai Instrumen Skrining Sistematik Kemenkes RI.' 
-                            : 'Saat ini kondisi Anda tidak memenuhi kriteria Terduga TBC. Tetap pertahankan pola hidup bersih dan sehat serta terapkan etika batuk.'">
+                            ? 'Berdasarkan gejala klinis yang dilaporkan, Anda memenuhi kriteria Terduga TB (Suspek TB) untuk tindak lanjut rujukan medis.' 
+                            : 'Saat ini kondisi Anda tidak memenuhi kriteria Terduga TB. Tetap pertahankan pola hidup bersih dan sehat serta terapkan etika batuk.'">
                         </p>
                     </div>
 
@@ -169,8 +169,8 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <strong class="text-gray-900 text-sm block">Segera Periksakan Diri ke Puskesmas (Tes Cepat Molekuler / TCM Dahak)</strong>
-                                        <p class="text-xs text-gray-600 mt-0.5">Tes TCM dahak di Puskesmas merupakan metode baku emas untuk mendeteksi bakteri TBC. Seluruh pemeriksaan dahak dan paket pengobatan TBC disediakan <strong>GRATIS</strong> oleh pemerintah.</p>
+                                        <strong class="text-gray-900 text-sm block">Segera Periksakan Diri ke Puskesmas Lok Bahu (Tes Cepat Molekuler / TCM Dahak)</strong>
+                                        <p class="text-xs text-gray-600 mt-0.5">Tes TCM dahak di Puskesmas merupakan metode baku emas untuk mendeteksi bakteri TB. Seluruh pemeriksaan dahak dan paket pengobatan TB disediakan <strong>GRATIS</strong> oleh pemerintah.</p>
                                     </div>
                                 </li>
                                 <li>
@@ -192,7 +192,7 @@
                                     </div>
                                     <div>
                                         <strong class="text-gray-900 text-sm block">Perbaiki Ventilasi & Sirkulasi Udara Rumah</strong>
-                                        <p class="text-xs text-gray-600 mt-0.5">Buka jendela dan pintu kamar setiap pagi agar cahaya matahari masuk. Bakteri TBC sensitif dan mudah mati oleh sinar ultraviolet matahari.</p>
+                                        <p class="text-xs text-gray-600 mt-0.5">Buka jendela dan pintu kamar setiap pagi agar cahaya matahari masuk. Bakteri TB sensitif dan mudah mati oleh sinar ultraviolet matahari.</p>
                                     </div>
                                 </li>
                                 <li>
@@ -286,7 +286,7 @@
                             </div>
 
                             <div class="summary-item">
-                                <span class="si-label">Riwayat Kontak Pasien TBC</span>
+                                <span class="si-label">Riwayat Kontak Pasien TB</span>
                                 <div class="si-val" x-text="pasien.riwayatKontak === 'ya' ? (pasien.jenisKontak === 'serumah' ? 'Kontak Serumah' : 'Kontak Erat') : 'Tidak Ada'"></div>
                             </div>
 
@@ -304,7 +304,7 @@
                         <div class="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-500 flex justify-between">
                             <span>Status ODHIV: <strong class="text-gray-700 capitalize" x-text="pasien.odhiv || 'Tidak'"></strong></span>
                             <span>Riwayat DM: <strong class="text-gray-700 capitalize" x-text="pasien.dm || 'Tidak'"></strong></span>
-                            <span>Pernah Berobat TBC: <strong class="text-gray-700" x-text="pasien.riwayatTBC ? 'Ya' : 'Tidak'"></strong></span>
+                            <span>Pernah Berobat TB: <strong class="text-gray-700" x-text="pasien.riwayatTBC ? 'Ya' : 'Tidak'"></strong></span>
                         </div>
                     </div>
 
@@ -357,7 +357,7 @@
                                     <svg class="w-5 h-5 fill-current mr-2 inline" viewBox="0 0 24 24">
                                         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
                                     </svg>
-                                    <span>Hubungi Petugas via WhatsApp</span>
+                                    <span>Hubungi WA Puskesmas Lok Bahu</span>
                                 </a>
                                 <p class="text-[11px] text-gray-400 text-center mt-2 leading-relaxed">
                                     Pesan WhatsApp terisi otomatis dengan ringkasan nama, usia, status hasil, dan permohonan tes dahak.
