@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hasil Evaluasi Skrining TBC Digital — Desktop</title>
+    <meta name="description" content="Hasil evaluasi skrining mandiri TBC Kemenkes RI dan rujukan Puskesmas setempat." />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Helper JS (harus SEBELUM Alpine.js) -->
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/questions.js"></script>
+    <script src="../assets/js/logic.js"></script>
+    <!-- Definisi Komponen Alpine -->
+    <script>
+    function hasilDesktopApp() {
+        return {
+            dataSkrining: null,
+            pasien: {},
+            hasil: {},
+            puskesmasConfig: window.PUSKESMAS_CONFIG,
+            linkWhatsAppPetugas: '#',
+            tanggalSkriningFormatted: '',
+
+            initHasil() {
+                const data = ambilHasil();
+                if (!data) return;
+                this.dataSkrining = data;
+                this.pasien = data.pasien || {};
+                this.hasil = data.hasil || {};
+                this.tanggalSkriningFormatted = formatTanggal(data.waktuSkrining);
+                this.linkWhatsAppPetugas = this.puskesmasConfig.getLinkWA(this.pasien, this.hasil);
+            },
+
+            bagikanHasilWA() {
+                const statusText = this.hasil.terduga ? 'TERDUGA TBC' : 'BUKAN TERDUGA TBC';
+                let text = `Halo, saya baru saja melakukan Skrining Mandiri TBC Digital.%0A`;
+                text += `Hasil Skrining: *${statusText}*%0A`;
+                if (this.hasil.terduga) {
+                    text += `Sesuai rekomendasi Kemenkes RI, disarankan pemeriksaan dahak TCM di Puskesmas terdekat.%0A`;
+                } else {
+                    text += `Kondisi aman / bukan terduga TBC. Tetap terapkan pola hidup bersih dan etika batuk.%0A`;
+                }
+                text += `Skrining mandiri gratis dapat diakses melalui website skrining TBC.`;
+                window.open(`https://wa.me/?text=${text}`, '_blank');
+            }
+        };
+    }
+    </script>
+    <!-- Alpine.js CDN (HARUS setelah definisi komponen) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Custom Desktop CSS -->
+    <link rel="stylesheet" href="../assets/css/desktop.css" />
+</head>
+<body x-data="hasilDesktopApp()" x-init="initHasil()">
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1 class="font-bold">Skrining TBC Digital</h1>
+                    <p>Hasil Evaluasi Medis Mandiri</p>
+                </div>
+            </a>
+
+            <span class="nav-badge">HASIL EVALUASI RESMI</span>
+
+            <ul class="nav-links">
+                <li><a href="index.html">‹ Beranda</a></li>
+                <li><a href="form.html">Form Skrining</a></li>
+                <li>
+                    <button type="button" @click="window.print()" class="btn btn-sm btn-secondary">
+                        <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                        </svg>
+                        Cetak PDF
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Body Container -->
+    <div class="page-container">
+
+        <!-- ============================================================== -->
+        <!-- STATE JIKA BELUM ADA DATA SKRINING                             -->
+        <!-- ============================================================== -->
+        <div x-show="!dataSkrining" class="card card-pad text-center py-16 max-w-lg mx-auto">
+            <div class="w-16 h-16 rounded-2xl bg-teal-50 border border-teal-200 text-teal-600 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                </svg>
+            </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Belum Ada Riwayat Skrining</h2>
+            <p class="text-sm text-gray-500 mb-6">Anda belum mengisi formulir skrining TBC pada sesi browser ini. Silakan mulai skrining mandiri.</p>
+            <a href="form.html" class="btn btn-primary btn-lg inline-flex">Mulai Skrining Mandiri Sekarang →</a>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- STATE HASIL SKRINING DITEMUKAN                                 -->
+        <!-- ============================================================== -->
+        <template x-if="dataSkrining">
+            <div class="hasil-layout">
+
+                <!-- ---------------------------------------------------------- -->
+                <!-- KOLOM KIRI (UTAMA): STATUS & TINDAK LANJUT MEDIS           -->
+                <!-- ---------------------------------------------------------- -->
+                <div>
+
+                    <!-- 1. STATUS HERO BADGE -->
+                    <div class="status-hero-card" :class="hasil.terduga ? 'merah' : 'hijau'">
+                        <div class="status-ring" :class="hasil.terduga ? 'merah' : 'hijau'">
+                            <template x-if="hasil.terduga">
+                                <svg class="w-12 h-12 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                            </template>
+                            <template x-if="!hasil.terduga">
+                                <svg class="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </template>
+                        </div>
+
+                        <h2 class="status-ring-title" :class="hasil.terduga ? 'merah' : 'hijau'" x-text="hasil.terduga ? 'HASIL: TERDUGA TBC' : 'HASIL: BUKAN TERDUGA TBC'"></h2>
+
+                        <p class="status-desc" x-text="hasil.terduga 
+                            ? 'Berdasarkan gejala klinis yang dilaporkan, Anda memenuhi kriteria Terduga TBC (Suspek TBC) sesuai Instrumen Skrining Sistematik Kemenkes RI.' 
+                            : 'Saat ini kondisi Anda tidak memenuhi kriteria Terduga TBC. Tetap pertahankan pola hidup bersih dan sehat serta terapkan etika batuk.'">
+                        </p>
+                    </div>
+
+                    <!-- 2. DAFTAR INDIKASI GEJALA (JIKA ADA) -->
+                    <div x-show="hasil.alasan && hasil.alasan.length > 0" class="card card-pad mb-6 bg-rose-50/50 border-rose-200">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-4 h-4 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                            <span class="text-rose-600 font-bold text-sm tracking-wide">INDIKASI GEJALA TERDETEKSI:</span>
+                        </div>
+                        <ul class="alasan-list">
+                            <template x-for="(als, idx) in hasil.alasan" :key="idx">
+                                <li x-text="als" class="font-medium text-rose-900"></li>
+                            </template>
+                        </ul>
+                    </div>
+
+                    <!-- 3. LANGKAH TINDAK LANJUT KESEHATAN -->
+                    <div class="card card-pad mb-6">
+                        <div class="border-b border-gray-100 pb-3 mb-4">
+                            <h3 class="font-bold text-teal-900 text-base">Rekomendasi Tindak Lanjut Medis</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">Panduan resmi yang disarankan untuk menjaga kesehatan Anda dan orang di sekitar.</p>
+                        </div>
+
+                        <!-- Rekomendasi Terduga -->
+                        <template x-if="hasil.terduga">
+                            <ul class="rekomendasi-list">
+                                <li>
+                                    <div class="rec-icon bg-rose-50 text-rose-600">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-900 text-sm block">Segera Periksakan Diri ke Puskesmas (Tes Cepat Molekuler / TCM Dahak)</strong>
+                                        <p class="text-xs text-gray-600 mt-0.5">Tes TCM dahak di Puskesmas merupakan metode baku emas untuk mendeteksi bakteri TBC. Seluruh pemeriksaan dahak dan paket pengobatan TBC disediakan <strong>GRATIS</strong> oleh pemerintah.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="rec-icon bg-teal-50 text-teal-600">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-900 text-sm block">Gunakan Masker Medis Setiap Saat</strong>
+                                        <p class="text-xs text-gray-600 mt-0.5">Tutup hidung dan mulut dengan masker bedah terutama saat berada di dalam rumah bersama keluarga dan di area publik.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="rec-icon bg-amber-50 text-amber-600">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-900 text-sm block">Perbaiki Ventilasi & Sirkulasi Udara Rumah</strong>
+                                        <p class="text-xs text-gray-600 mt-0.5">Buka jendela dan pintu kamar setiap pagi agar cahaya matahari masuk. Bakteri TBC sensitif dan mudah mati oleh sinar ultraviolet matahari.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="rec-icon bg-emerald-50 text-emerald-600">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-900 text-sm block">Terapkan Etika Batuk & Bersin</strong>
+                                        <p class="text-xs text-gray-600 mt-0.5">Gunakan lengan atas bagian dalam atau tisu saat batuk/bersin. Segera buang tisu ke tempat sampah tertutup dan cuci tangan dengan sabun.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </template>
+
+                        <!-- Rekomendasi Bukan Terduga -->
+                        <template x-if="!hasil.terduga">
+                            <ul class="rekomendasi-list">
+                                <li>
+                                    <div class="rec-icon bg-emerald-50 text-emerald-600">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-900 text-sm block">Terapkan Pola Hidup Bersih & Sehat (PHBS)</strong>
+                                        <p class="text-xs text-gray-600 mt-0.5">Konsumsi makanan bergizi seimbang, cukupi asupan protein dan vitamin, serta perbanyak minum air putih.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="rec-icon bg-teal-50 text-teal-600">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-900 text-sm block">Jaga Daya Tahan Tubuh & Istirahat Cukup</strong>
+                                        <p class="text-xs text-gray-600 mt-0.5">Tidur minimal 7-8 jam sehari, lakukan aktivitas fisik teratur, dan hindari paparan asap rokok.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="rec-icon bg-amber-50 text-amber-600">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-900 text-sm block">Waspada Jika Batuk Berlanjut &gt; 2 Minggu</strong>
+                                        <p class="text-xs text-gray-600 mt-0.5">Apabila mengalami batuk yang berlanjut lebih dari 2 minggu atau muncul gejala demam malam hari, segera lakukan skrining ulang atau kunjungi faskes terdekat.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </template>
+                    </div>
+
+                    <!-- 4. RINGKASAN DATA LENGKAP RESPONDEN -->
+                    <div class="card card-pad">
+                        <div class="border-b border-gray-100 pb-3 mb-4 flex justify-between items-center">
+                            <div>
+                                <h3 class="font-bold text-teal-900 text-base">Ringkasan Data Responden</h3>
+                                <p class="text-xs text-gray-500">Rekapitulasi informasi yang dimasukkan pada formulir.</p>
+                            </div>
+                            <span class="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full font-medium" x-text="tanggalSkriningFormatted"></span>
+                        </div>
+
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <span class="si-label">Nama Lengkap</span>
+                                <div class="si-val" x-text="pasien.nama || '-'"></div>
+                            </div>
+
+                            <div class="summary-item">
+                                <span class="si-label">NIK</span>
+                                <div class="si-val" x-text="pasien.nik || 'Tidak Dicantumkan'"></div>
+                            </div>
+
+                            <div class="summary-item">
+                                <span class="si-label">Usia & Kategori Kuisioner</span>
+                                <div class="si-val" x-text="`${pasien.usia || '-'} Tahun (${hasil.kategoriUsia})`"></div>
+                            </div>
+
+                            <div class="summary-item">
+                                <span class="si-label">Jenis Kelamin</span>
+                                <div class="si-val" x-text="pasien.jenisKelamin === 'L' ? 'Laki-laki' : (pasien.jenisKelamin === 'P' ? 'Perempuan' : '-')"></div>
+                            </div>
+
+                            <div class="summary-item">
+                                <span class="si-label">No. WhatsApp / HP</span>
+                                <div class="si-val" x-text="pasien.noHp || '-'"></div>
+                            </div>
+
+                            <div class="summary-item">
+                                <span class="si-label">Riwayat Kontak Pasien TBC</span>
+                                <div class="si-val" x-text="pasien.riwayatKontak === 'ya' ? (pasien.jenisKontak === 'serumah' ? 'Kontak Serumah' : 'Kontak Erat') : 'Tidak Ada'"></div>
+                            </div>
+
+                            <div class="summary-item">
+                                <span class="si-label">Indeks Massa Tubuh (IMT)</span>
+                                <div class="si-val" x-text="pasien.imt ? `${pasien.imt} kg/m² (${pasien.kategoriIMT})` : '-'"></div>
+                            </div>
+
+                            <div class="summary-item">
+                                <span class="si-label">Kebiasaan Merokok</span>
+                                <div class="si-val capitalize" x-text="pasien.merokok ? `Perokok ${pasien.merokok}` : 'Tidak'"></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-500 flex justify-between">
+                            <span>Status ODHIV: <strong class="text-gray-700 capitalize" x-text="pasien.odhiv || 'Tidak'"></strong></span>
+                            <span>Riwayat DM: <strong class="text-gray-700 capitalize" x-text="pasien.dm || 'Tidak'"></strong></span>
+                            <span>Pernah Berobat TBC: <strong class="text-gray-700" x-text="pasien.riwayatTBC ? 'Ya' : 'Tidak'"></strong></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ---------------------------------------------------------- -->
+                <!-- KOLOM KANAN: CARD PUSKESMAS & AKSI CEPAT (STICKY)          -->
+                <!-- ---------------------------------------------------------- -->
+                <aside class="hasil-sidebar">
+
+                    <!-- CARD PUSKESMAS RUJUKAN -->
+                    <div class="puskesmas-card">
+                        <div class="pk-header">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                            <div>
+                                <h3 class="font-bold" x-text="puskesmasConfig.namaPuskesmas"></h3>
+                                <p>Fasilitas Rujukan & Lab TCM Dahak</p>
+                            </div>
+                        </div>
+
+                        <div class="pk-body">
+                            <div class="pk-info-row">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                                <p>Petugas Penanggung Jawab:<br><strong class="text-teal-900" x-text="puskesmasConfig.namaPetugas"></strong></p>
+                            </div>
+
+                            <div class="pk-info-row">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                </svg>
+                                <p>Alamat:<br><span x-text="puskesmasConfig.alamat"></span></p>
+                            </div>
+
+                            <div class="pk-info-row">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                </svg>
+                                <p>Jam Pelayanan:<br><span x-text="puskesmasConfig.jamLayanan"></span></p>
+                            </div>
+
+                            <div class="pk-divider"></div>
+
+                            <!-- TOMBOL CTA WHATSAPP UTAMA -->
+                            <div>
+                                <a :href="linkWhatsAppPetugas" target="_blank" class="btn btn-wa w-full text-center">
+                                    <svg class="w-5 h-5 fill-current mr-2 inline" viewBox="0 0 24 24">
+                                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+                                    </svg>
+                                    <span>Hubungi Petugas via WhatsApp</span>
+                                </a>
+                                <p class="text-[11px] text-gray-400 text-center mt-2 leading-relaxed">
+                                    Pesan WhatsApp terisi otomatis dengan ringkasan nama, usia, status hasil, dan permohonan tes dahak.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD AKSI TAMBAHAN -->
+                    <div class="card card-pad space-y-3">
+                        <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Aksi Dokumen</h4>
+
+                        <!-- Bagikan WhatsApp -->
+                        <button type="button" @click="bagikanHasilWA()" class="btn btn-outline-teal w-full">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                            </svg>
+                            <span>Bagikan Hasil ke Kerabat</span>
+                        </button>
+
+                        <!-- Cetak PDF -->
+                        <button type="button" @click="window.print()" class="btn btn-secondary w-full">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                            </svg>
+                            <span>Cetak Dokumen Hasil (PDF)</span>
+                        </button>
+
+                        <!-- Skrining Ulang -->
+                        <a href="form.html" class="btn btn-secondary w-full">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            <span>Skrining Ulang untuk Orang Lain</span>
+                        </a>
+                    </div>
+
+                </aside>
+
+            </div>
+        </template>
+
+    </div>
+
+    <!-- Komponen Alpine sudah didefinisikan di <head> -->
+</body>
+</html>

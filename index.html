@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skrining TBC Digital — Kemenkes RI</title>
+    <meta name="description" content="Aplikasi skrining mandiri TBC berbasis pedoman Kemenkes RI. Deteksi dini Terduga TBC untuk Anda dan keluarga." />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #f0fdfa 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loader {
+            text-align: center;
+            color: white;
+        }
+        .loader-ring {
+            width: 56px;
+            height: 56px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader p { font-size: 1rem; opacity: 0.9; letter-spacing: 0.02em; }
+        .loader small { display: block; margin-top: 6px; font-size: 0.78rem; opacity: 0.6; }
+        .noscript-box {
+            position: fixed; inset: 0;
+            background: #f0fdfa;
+            display: flex; align-items: center; justify-content: center;
+            font-family: sans-serif;
+            padding: 24px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="loader-ring"></div>
+        <p>Mendeteksi perangkat Anda…</p>
+        <small>Mengalihkan ke tampilan yang optimal</small>
+    </div>
+
+    <noscript>
+        <div class="noscript-box">
+            <div>
+                <h2 style="color:#0f766e;margin-bottom:8px;">JavaScript Diperlukan</h2>
+                <p>Aplikasi ini memerlukan JavaScript untuk berjalan.<br>
+                Silakan aktifkan JavaScript di browser Anda.</p>
+                <br>
+                <a href="mobile/index.html" style="color:#0f766e;font-weight:600;">Akses Tampilan Mobile →</a>
+                &nbsp;|&nbsp;
+                <a href="desktop/index.html" style="color:#0f766e;font-weight:600;">Akses Tampilan Desktop →</a>
+            </div>
+        </div>
+    </noscript>
+
+    <script src="assets/js/router.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Skrining TBC Digital — Beranda Mobile</title>
+    <meta name="description" content="Dashboard Skrining Mandiri TBC Digital berbasis pedoman Kemenkes RI untuk smartphone." />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Custom Mobile CSS -->
+    <link rel="stylesheet" href="../assets/css/mobile.css" />
+</head>
+<body x-data="{
+    activeTab: 'home',
+    currentSlide: 0,
+    slides: [
+        {
+            title: 'Kenali Gejala Utama TBC',
+            desc: 'Batuk terus-menerus, demam, keringat malam, dan penurunan berat badan.',
+            img: '../assets/img/poster-gejala.png',
+            fallbackText: 'Poster 1: Gejala Klinis TBC'
+        },
+        {
+            title: 'Cara Penularan TBC',
+            desc: 'Menular lewat percikan dahak (droplet) saat penderita batuk atau bersin.',
+            img: '../assets/img/poster-penularan.png',
+            fallbackText: 'Poster 2: Penularan TBC Droplet'
+        },
+        {
+            title: 'Pencegahan & Pengobatan TBC',
+            desc: 'TOS-TBC: Temukan, Obati Sampai Sembuh. Obat disediakan GRATIS di Puskesmas.',
+            img: '../assets/img/poster-pencegahan.png',
+            fallbackText: 'Poster 3: Pencegahan & TOSS TBC'
+        }
+    ],
+    nextSlide() {
+        this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    },
+    prevSlide() {
+        this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    }
+}">
+
+    <!-- Top Mobile Header -->
+    <header class="mobile-header">
+        <div class="logo-wrap">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+        </div>
+        <div class="title-wrap">
+            <h1 class="font-bold">Skrining TBC Digital</h1>
+            <p>Pemeriksaan Mandiri Kemenkes RI</p>
+        </div>
+        <span class="badge-kemenkes">Standar Kemenkes</span>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-mobile">
+        <div class="hero-badge">
+            <svg class="w-3.5 h-3.5 text-teal-200" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            Deteksi Dini Cepat & Tepat
+        </div>
+        <h1>Cek Risiko Tuberkulosis (TBC) Dalam 2 Menit</h1>
+        <p>Formulir skrining gejala sistematis untuk anak dan dewasa. Hasil langsung keluar beserta arahan faskes resmi Puskesmas.</p>
+        <a href="form.html" class="btn-start">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+            </svg>
+            Mulai Skrining Mandiri
+        </a>
+    </section>
+
+    <!-- Quick Stat Strip -->
+    <div class="stat-strip">
+        <div class="stat-chip">
+            <div class="num">100%</div>
+            <div class="lbl">Rahasia & Gratis</div>
+        </div>
+        <div class="stat-chip">
+            <div class="num">2 Menit</div>
+            <div class="lbl">Waktu Skrining</div>
+        </div>
+        <div class="stat-chip">
+            <div class="num">TCM</div>
+            <div class="lbl">Standar Faskes</div>
+        </div>
+        <div class="stat-chip">
+            <div class="num">Sembuh</div>
+            <div class="lbl">Dapat Diobati</div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="page-pad space-y-5">
+        <!-- Poster Carousel Section -->
+        <div>
+            <div class="section-label">
+                <span>Edukasi & Informasi TBC</span>
+            </div>
+
+            <div class="carousel-wrap">
+                <div class="carousel-track" :style="`transform: translateX(-${currentSlide * 100}%);`">
+                    <template x-for="(slide, idx) in slides" :key="idx">
+                        <div class="carousel-slide">
+                            <img :src="slide.img" :alt="slide.title"
+                                 @error="$el.style.display='none'; $el.nextElementSibling.classList.remove('hidden')" />
+                            
+                            <!-- Placeholder fallback if poster image is not yet placed -->
+                            <div class="carousel-placeholder hidden">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <p x-text="slide.fallbackText"></p>
+                                <span class="text-[10px] text-teal-200">Taruh poster di assets/img/</span>
+                            </div>
+
+                            <div class="slide-caption">
+                                <p class="font-bold text-white text-sm" x-text="slide.title"></p>
+                                <p class="text-xs text-teal-100 opacity-90 line-clamp-1" x-text="slide.desc"></p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Carousel Dots & Arrows -->
+            <div class="flex items-center justify-between mt-2.5 px-1">
+                <button @click="prevSlide()" class="text-xs text-teal-700 font-semibold px-2 py-1 bg-white rounded-md border border-gray-200 shadow-sm">‹ Geser</button>
+                <div class="carousel-dots">
+                    <template x-for="(slide, idx) in slides" :key="idx">
+                        <button :class="{ 'active': currentSlide === idx }" @click="currentSlide = idx"></button>
+                    </template>
+                </div>
+                <button @click="nextSlide()" class="text-xs text-teal-700 font-semibold px-2 py-1 bg-white rounded-md border border-gray-200 shadow-sm">Lanjut ›</button>
+            </div>
+        </div>
+
+        <!-- Edu Cards / Point Penting -->
+        <div>
+            <div class="section-label">
+                <span>Mengapa Perlu Skrining?</span>
+            </div>
+
+            <div class="edu-card">
+                <div class="icon-box bg-teal-50 text-teal-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>TBC Dapat Menyerang Siapa Saja</h3>
+                    <p>Tuberkulosis menular melalui udara saat penderita batuk. Kontak serumah dan kontak erat memiliki risiko penularan tertinggi.</p>
+                </div>
+            </div>
+
+            <div class="edu-card">
+                <div class="icon-box bg-rose-50 text-rose-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>Gejala Sering Diabaikan</h3>
+                    <p>Batuk lebih dari 2 minggu, demam hilang timbul, dan berat badan menurun merupakan tanda yang wajib diperiksakan ke Faskes.</p>
+                </div>
+            </div>
+
+            <div class="edu-card">
+                <div class="icon-box bg-emerald-50 text-emerald-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>TBC Bisa Sembuh Total!</h3>
+                    <p>Pemeriksaan dahak Tes Cepat Molekuler (TCM) dan paket obat TBC di Puskesmas disediakan <strong>GRATIS</strong> oleh pemerintah hingga tuntas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Box -->
+        <div class="card p-4 text-center bg-gradient-to-br from-teal-50 to-white border-teal-200">
+            <h3 class="text-teal-900 font-bold mb-1.5">Mulai Pemeriksaan Anda Sekarang</h3>
+            <p class="text-xs text-gray-600 mb-3.5">Tidak perlu antre, cukup jawab beberapa pertanyaan kondisi kesehatan Anda atau keluarga.</p>
+            <a href="form.html" class="btn btn-primary">
+                Isi Formulir Skrining
+            </a>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="active">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+            </svg>
+            <span>Beranda</span>
+        </a>
+        <a href="form.html">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            <span>Skrining</span>
+        </a>
+        <a href="hasil.html">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>Hasil Terakhir</span>
+        </a>
+    </nav>
+
+</body>
+</html>
