@@ -385,7 +385,8 @@
 
     <!-- Lightbox Modal Pan & Zoom Poster HD Desktop -->
     <div x-show="showPosterModal" x-cloak
-         class="fixed inset-0 z-50 bg-black/92 backdrop-blur-md flex flex-col justify-between p-4 select-none"
+         class="fixed inset-0 bg-black/92 backdrop-blur-md flex flex-col justify-between p-4 select-none"
+         style="z-index: 9999;"
          @keydown.escape.window="showPosterModal = false">
         
         <!-- Header Modal: Info & Tombol Tutup -->
