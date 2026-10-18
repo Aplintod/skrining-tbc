@@ -21,6 +21,26 @@
             puskesmasConfig: window.PUSKESMAS_CONFIG,
             linkWhatsAppPetugas: '#',
             tanggalSkriningFormatted: '',
+            showPosterModal: false,
+            posterExists: false,
+
+            get posterSrc() {
+                return this.hasil.terduga ? '../assets/img/poster-terduga.png' : '../assets/img/poster-bukan-terduga.png';
+            },
+            get posterAlt() {
+                return this.hasil.terduga ? 'Poster Edukasi Pasien Terduga TB' : 'Poster Edukasi Pencegahan Tuberkulosis';
+            },
+            get posterJudul() {
+                return this.hasil.terduga ? 'Poster Panduan Pasien Terduga TB' : 'Poster Edukasi Pencegahan Tuberkulosis & PHBS';
+            },
+            get posterDeskripsi() {
+                return this.hasil.terduga 
+                    ? 'Panduan penanganan medis, tes dahak TCM gratis di Puskesmas Lok Bahu, etika batuk, dan perlindungan keluarga.'
+                    : 'Panduan menjaga daya tahan tubuh, ventilasi udara rumah, dan perilaku hidup bersih & sehat (PHBS).';
+            },
+            get posterDownloadName() {
+                return this.hasil.terduga ? 'Poster-Terduga-TB.png' : 'Poster-Pencegahan-TB.png';
+            },
 
             initHasil() {
                 const data = ambilHasil();
@@ -30,6 +50,12 @@
                 this.hasil = data.hasil || {};
                 this.tanggalSkriningFormatted = formatTanggal(data.waktuSkrining);
                 this.linkWhatsAppPetugas = this.puskesmasConfig.getLinkWA(this.pasien, this.hasil);
+
+                // Cek ketersediaan file poster
+                const img = new Image();
+                img.onload = () => { this.posterExists = true; };
+                img.onerror = () => { this.posterExists = false; };
+                img.src = this.posterSrc;
             },
 
             bagikanHasilWA() {
@@ -305,7 +331,64 @@
                     </template>
                 </div>
 
-                <!-- 4. RINGKASAN DATA IDENTITAS PASIEN -->
+                <!-- 4. INFOGRAFIS & POSTER EDUKASI SESUAI DIAGNOSIS (RASIO 1414 x 2000) -->
+                <div class="card p-4 space-y-3">
+                    <div class="border-b border-gray-100 pb-2">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold mb-1.5"
+                             :class="hasil.terduga ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span x-text="hasil.terduga ? 'Poster Khusus: Terduga TB' : 'Poster Khusus: Bukan Terduga TB'"></span>
+                        </div>
+                        <h3 class="text-teal-900 font-bold text-sm" x-text="posterJudul"></h3>
+                        <p class="text-[11px] text-gray-500 mt-0.5" x-text="posterDeskripsi"></p>
+                    </div>
+
+                    <!-- KONDISI 1: JIKA FILE POSTER SUDAH ADA -->
+                    <div x-show="posterExists" class="space-y-2.5">
+                        <div class="featured-poster-frame-m" @click="showPosterModal = true">
+                            <img :src="posterSrc" :alt="posterAlt" class="featured-poster-img-m" />
+                            <div class="poster-zoom-hint-m">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+                                </svg>
+                                <span>Ketuk untuk Zoom HD</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <button type="button" @click="showPosterModal = true" class="btn btn-sm btn-primary flex-1 text-xs py-2">
+                                🔍 Lihat Ukuran Penuh (HD)
+                            </button>
+                            <a :href="posterSrc" :download="posterDownloadName" class="btn btn-sm btn-secondary text-xs py-2 px-3 flex items-center justify-center">
+                                ⬇ Unduh
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- KONDISI 2: PLACEHOLDER KOSONG JIKA FILE POSTER BELUM DIMASUKKAN -->
+                    <div x-show="!posterExists" class="p-5 rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/80 text-center flex flex-col items-center justify-center">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-2"
+                             :class="hasil.terduga ? 'bg-rose-50 border border-rose-200 text-rose-600' : 'bg-teal-50 border border-teal-200 text-teal-600'">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-1.5"
+                              :class="hasil.terduga ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'"
+                              x-text="hasil.terduga ? 'Slot Poster A (Terduga TB)' : 'Slot Poster B (Bukan Terduga TB)'"></span>
+                        <h4 class="font-bold text-gray-800 text-xs mb-1" x-text="posterJudul"></h4>
+                        <p class="text-[11px] text-gray-500 mb-2 leading-relaxed">
+                            Area poster (rasio <strong>1414 × 2000 px</strong>) otomatis terisi saat file poster ditaruh di:
+                        </p>
+                        <code class="text-[11px] bg-white border border-gray-300 px-2.5 py-1 rounded-md text-teal-700 font-mono font-bold mb-1 shadow-xs"
+                              x-text="hasil.terduga ? 'assets/img/poster-terduga.png' : 'assets/img/poster-bukan-terduga.png'"></code>
+                        <p class="text-[10px] text-gray-400">Format: .png / .jpg / .webp</p>
+                    </div>
+                </div>
+
+                <!-- 5. RINGKASAN DATA IDENTITAS PASIEN -->
                 <div class="card p-4 space-y-3">
                     <div class="border-b border-gray-100 pb-2 flex justify-between items-center">
                         <h3 class="text-teal-900 font-bold text-sm">Data Ringkasan Responden</h3>
@@ -316,6 +399,10 @@
                         <div class="summary-item">
                             <span class="si-label">Nama Lengkap</span>
                             <div class="si-val" x-text="pasien.nama || '-'"></div>
+                        </div>
+                        <div class="summary-item">
+                            <span class="si-label">NIK</span>
+                            <div class="si-val" x-text="pasien.nik || '-'"></div>
                         </div>
                         <div class="summary-item">
                             <span class="si-label">Usia & Kategori</span>
@@ -408,6 +495,23 @@
         </a>
     </nav>
 
-    <!-- (script module dipindah ke head) -->
+    <!-- Lightbox Modal untuk Zoom Poster HD Mobile -->
+    <div x-show="showPosterModal" x-cloak
+         class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex flex-col justify-between p-3"
+         @keydown.escape.window="showPosterModal = false"
+         @click.self="showPosterModal = false">
+        <div class="flex items-center justify-between pb-2 text-white">
+            <span class="text-xs font-semibold text-teal-200" x-text="posterJudul + ' (HD)'"></span>
+            <button @click="showPosterModal = false" class="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full font-bold transition">Tutup ✕</button>
+        </div>
+        <div class="overflow-auto flex-1 flex items-center justify-center my-2">
+            <img :src="posterSrc" :alt="posterAlt" class="w-full h-auto object-contain block max-h-[82vh]" />
+        </div>
+        <div class="pt-2 flex justify-between items-center text-xs text-teal-200 border-t border-teal-800">
+            <span>Rasio 1414 × 2000</span>
+            <a :href="posterSrc" :download="posterDownloadName" class="btn btn-sm btn-primary text-xs py-1.5 px-3">Unduh Poster</a>
+        </div>
+    </div>
+
 </body>
 </html>

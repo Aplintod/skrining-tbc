@@ -34,6 +34,7 @@ window.PUSKESMAS_CONFIG = {
         let teks = `Halo Petugas ${this.namaPuskesmas}, saya telah mengisi formulir Skrining TB Mandiri melalui website.%0A%0A`;
         teks += `*Ringkasan Data Skrining:*%0A`;
         teks += `\u2022 Nama: ${dataPasien.nama || "-"}%0A`;
+        teks += `\u2022 NIK: ${dataPasien.nik || "-"}%0A`;
         teks += `\u2022 Tanggal Lahir: ${dataPasien.tanggalLahir || "-"} (${dataPasien.usia || "-"} Tahun)%0A`;
         teks += `\u2022 No. HP: ${dataPasien.noHp || "-"}%0A`;
         teks += `\u2022 Tanggal Skrining: ${new Date().toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" })}%0A`;
