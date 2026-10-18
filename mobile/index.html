@@ -14,7 +14,58 @@
 </head>
 <body x-data="{
     activeTab: 'home',
-    showPosterModal: false
+    showPosterModal: false,
+    zoomScale: 1,
+    panX: 0,
+    panY: 0,
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+
+    bukaModal() {
+        this.zoomScale = 1;
+        this.panX = 0;
+        this.panY = 0;
+        this.isDragging = false;
+        this.showPosterModal = true;
+    },
+    zoomIn() {
+        if (this.zoomScale < 3.2) {
+            this.zoomScale = +(this.zoomScale + 0.35).toFixed(2);
+        }
+    },
+    zoomOut() {
+        if (this.zoomScale > 0.6) {
+            this.zoomScale = +(this.zoomScale - 0.35).toFixed(2);
+            if (this.zoomScale <= 1) {
+                this.panX = 0;
+                this.panY = 0;
+            }
+        }
+    },
+    resetZoom() {
+        this.zoomScale = 1;
+        this.panX = 0;
+        this.panY = 0;
+    },
+    startDrag(e) {
+        this.isDragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        this.startX = clientX - this.panX;
+        this.startY = clientY - this.panY;
+    },
+    onDrag(e) {
+        if (!this.isDragging) return;
+        if (e.cancelable) e.preventDefault();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        this.panX = clientX - this.startX;
+        this.panY = clientY - this.startY;
+    },
+    stopDrag() {
+        this.isDragging = false;
+    }
 }">
 
     <!-- Top Mobile Header -->
@@ -82,7 +133,7 @@
             </div>
 
             <!-- Poster Frame (1414 x 2000 ratio terjaga tanpa gepeng) -->
-            <div class="featured-poster-frame-m" @click="showPosterModal = true">
+            <div class="featured-poster-frame-m" @click="bukaModal()">
                 <img src="../assets/img/postertb.png" alt="Poster Edukasi TB FKM UNMUL" class="featured-poster-img-m" />
                 <div class="poster-zoom-hint-m">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,7 +145,7 @@
 
             <!-- Action buttons -->
             <div class="flex gap-2 pt-1">
-                <button type="button" @click="showPosterModal = true" class="btn btn-sm btn-primary flex-1 text-xs py-2">
+                <button type="button" @click="bukaModal()" class="btn btn-sm btn-primary flex-1 text-xs py-2">
                     <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
                     </svg>
@@ -183,19 +234,70 @@
         </a>
     </nav>
 
-    <!-- Lightbox Modal untuk Zoom Poster HD Mobile -->
+    <!-- Lightbox Modal Pan & Zoom Poster HD Mobile -->
     <div x-show="showPosterModal" x-cloak
-         class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-3"
-         @keydown.escape.window="showPosterModal = false"
-         @click.self="showPosterModal = false">
-        <div class="w-full max-w-sm flex justify-between items-center mb-2 px-1 text-white">
-            <span class="text-xs font-semibold text-teal-200">Poster Edukasi TB (HD)</span>
-            <button @click="showPosterModal = false" class="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full font-bold transition">
-                ✕ Tutup
-            </button>
+         class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col justify-between p-3 select-none"
+         @keydown.escape.window="showPosterModal = false">
+        
+        <!-- Header Modal Mobile -->
+        <div class="flex items-center justify-between pb-2 text-white border-b border-teal-800/80 z-10 gap-2">
+            <span class="text-xs font-semibold text-teal-200 truncate flex-1">Poster Edukasi Tuberkulosis (HD)</span>
+            <span class="text-[10px] text-teal-300 bg-teal-900/60 px-2 py-0.5 rounded-full border border-teal-700/50">Tahan & Geser</span>
+            <button @click="showPosterModal = false" class="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full font-bold transition text-white">✕</button>
         </div>
-        <div class="overflow-auto max-h-[85vh] rounded-lg shadow-2xl bg-white">
-            <img src="../assets/img/postertb.png" alt="Poster Edukasi TB Resolusi Penuh" class="w-full h-auto object-contain block" />
+
+        <!-- Viewport Gambar (Touch Pan & Zoom) -->
+        <div class="relative flex-1 overflow-hidden flex items-center justify-center my-2 rounded-xl bg-black/40 touch-none"
+             @mousedown="startDrag($event)"
+             @mousemove="onDrag($event)"
+             @mouseup="stopDrag()"
+             @mouseleave="stopDrag()"
+             @touchstart="startDrag($event)"
+             @touchmove="onDrag($event)"
+             @touchend="stopDrag()"
+             @touchcancel="stopDrag()">
+            
+            <img src="../assets/img/postertb.png" alt="Poster Edukasi TB Resolusi Penuh"
+                 class="w-full h-auto object-contain block max-h-[78vh] rounded shadow-2xl pointer-events-none select-none"
+                 :style="`transform: translate(${panX}px, ${panY}px) scale(${zoomScale}); transform-origin: center center; transition: ${isDragging ? 'none' : 'transform 0.12s ease-out'};`" />
+        </div>
+
+        <!-- Floating Zoom Toolbar (+ / - / Reset / Unduh) Mobile -->
+        <div class="flex items-center justify-between pt-1 border-t border-teal-800/80 z-10 gap-2">
+            <div class="flex items-center gap-1 bg-white/10 px-2 py-1 rounded-full border border-teal-700/60">
+                <!-- Tombol Zoom Out (-) -->
+                <button type="button" @click.stop="zoomOut()"
+                        class="w-7 h-7 rounded-full bg-white/10 hover:bg-teal-600 active:scale-95 text-white flex items-center justify-center font-bold text-base transition"
+                        title="Perkecil (−)">
+                    −
+                </button>
+
+                <!-- Indikator Zoom Level -->
+                <span class="text-[11px] font-mono font-bold text-teal-300 min-w-[38px] text-center"
+                      x-text="Math.round(zoomScale * 100) + '%'">
+                    100%
+                </span>
+
+                <!-- Tombol Zoom In (+) -->
+                <button type="button" @click.stop="zoomIn()"
+                        class="w-7 h-7 rounded-full bg-white/10 hover:bg-teal-600 active:scale-95 text-white flex items-center justify-center font-bold text-base transition"
+                        title="Perbesar (+)">
+                    +
+                </button>
+
+                <!-- Tombol Reset -->
+                <button type="button" @click.stop="resetZoom()"
+                        class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-teal-600 active:scale-95 text-white text-[11px] font-semibold transition ml-1">
+                    Reset
+                </button>
+            </div>
+
+            <!-- Tombol Unduh -->
+            <a href="../assets/img/postertb.png" download="Poster-TB-FKM-UNMUL.png"
+               class="px-3.5 py-1.5 rounded-full bg-teal-600 hover:bg-teal-500 active:scale-95 text-white text-xs font-bold transition flex items-center gap-1.5 shadow">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>Unduh</span>
+            </a>
         </div>
     </div>
 

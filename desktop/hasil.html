@@ -23,6 +23,57 @@
             tanggalSkriningFormatted: '',
             showPosterModal: false,
             posterExists: false,
+            zoomScale: 1,
+            panX: 0,
+            panY: 0,
+            isDragging: false,
+            startX: 0,
+            startY: 0,
+
+            bukaModal() {
+                this.zoomScale = 1;
+                this.panX = 0;
+                this.panY = 0;
+                this.isDragging = false;
+                this.showPosterModal = true;
+            },
+            zoomIn() {
+                if (this.zoomScale < 3.2) {
+                    this.zoomScale = +(this.zoomScale + 0.35).toFixed(2);
+                }
+            },
+            zoomOut() {
+                if (this.zoomScale > 0.6) {
+                    this.zoomScale = +(this.zoomScale - 0.35).toFixed(2);
+                    if (this.zoomScale <= 1) {
+                        this.panX = 0;
+                        this.panY = 0;
+                    }
+                }
+            },
+            resetZoom() {
+                this.zoomScale = 1;
+                this.panX = 0;
+                this.panY = 0;
+            },
+            startDrag(e) {
+                this.isDragging = true;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                this.startX = clientX - this.panX;
+                this.startY = clientY - this.panY;
+            },
+            onDrag(e) {
+                if (!this.isDragging) return;
+                if (e.cancelable) e.preventDefault();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                this.panX = clientX - this.startX;
+                this.panY = clientY - this.startY;
+            },
+            stopDrag() {
+                this.isDragging = false;
+            },
 
             get posterSrc() {
                 return this.hasil.terduga ? '../assets/img/poster-terduga.png' : '../assets/img/poster-bukan-terduga.png';
@@ -323,7 +374,7 @@
                         <div x-show="posterExists">
                             <div class="featured-poster-layout" style="align-items: flex-start; gap: 24px;">
                                 <!-- Sisi Kiri: Frame Poster 1414 x 2000 -->
-                                <div class="featured-poster-frame" style="max-width: 280px; width: 100%; flex-shrink: 0;" @click="showPosterModal = true">
+                                <div class="featured-poster-frame" style="max-width: 280px; width: 100%; flex-shrink: 0;" @click="bukaModal()">
                                     <img :src="posterSrc" :alt="posterAlt" class="featured-poster-img" />
                                     <div class="poster-zoom-hint">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -346,7 +397,7 @@
                                     </div>
 
                                     <div class="flex flex-wrap items-center gap-3 pt-4 border-t border-gray-100 mt-4">
-                                        <button type="button" @click="showPosterModal = true" class="btn btn-primary">
+                                        <button type="button" @click="bukaModal()" class="btn btn-primary">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
                                             </svg>
@@ -551,22 +602,84 @@
 
     </div>
 
-    <!-- Lightbox Modal untuk Zoom Poster HD -->
+    <!-- Lightbox Modal Pan & Zoom Poster HD -->
     <div x-show="showPosterModal" x-cloak
-         class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-4"
-         @keydown.escape.window="showPosterModal = false"
-         @click.self="showPosterModal = false">
-        <div class="w-full max-w-2xl bg-teal-950/90 rounded-2xl overflow-hidden border border-teal-700/50 shadow-2xl flex flex-col max-h-[92vh]">
-            <div class="flex items-center justify-between px-5 py-3 border-b border-teal-800 bg-teal-900/60 text-white">
-                <span class="text-xs font-semibold text-teal-200" x-text="posterJudul + ' (Resolusi Penuh)'"></span>
-                <button @click="showPosterModal = false" class="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full font-bold transition">Tutup ✕</button>
+         class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col justify-between p-4 select-none"
+         @keydown.escape.window="showPosterModal = false">
+        
+        <!-- Header Modal -->
+        <div class="flex items-center justify-between pb-3 px-2 border-b border-teal-800/80 text-white z-10">
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-bold text-teal-200" x-text="posterJudul"></span>
+                <span class="text-xs bg-teal-900/80 text-teal-300 px-2.5 py-0.5 rounded-full border border-teal-700/60 hidden sm:inline">
+                    🖱️ Tahan & seret mouse untuk menggeser gambar
+                </span>
             </div>
-            <div class="overflow-auto p-4 flex items-center justify-center bg-black/40 flex-1">
-                <img :src="posterSrc" :alt="posterAlt" class="w-full h-auto object-contain block max-h-[80vh]" />
-            </div>
-            <div class="p-3 bg-teal-900/60 border-t border-teal-800 flex justify-between items-center text-xs text-teal-200">
-                <span>Rasio asli: 1414 × 2000</span>
-                <a :href="posterSrc" :download="posterDownloadName" class="btn btn-sm btn-primary text-xs py-1.5 px-3">Unduh File Poster</a>
+            
+            <button @click="showPosterModal = false" class="text-xs bg-white/20 hover:bg-white/30 text-white px-3.5 py-1.5 rounded-full font-bold transition flex items-center gap-1.5 shadow">
+                <span>Tutup (ESC)</span>
+                <span>✕</span>
+            </button>
+        </div>
+
+        <!-- Viewport Gambar (Bisa Digeser & Di-Zoom) -->
+        <div class="relative flex-1 overflow-hidden flex items-center justify-center my-2 rounded-xl bg-black/40"
+             @mousedown="startDrag($event)"
+             @mousemove="onDrag($event)"
+             @mouseup="stopDrag()"
+             @mouseleave="stopDrag()"
+             @touchstart="startDrag($event)"
+             @touchmove="onDrag($event)"
+             @touchend="stopDrag()"
+             @touchcancel="stopDrag()"
+             @wheel.prevent="if ($event.deltaY < 0) zoomIn(); else zoomOut();"
+             :style="`cursor: ${isDragging ? 'grabbing' : 'grab'};`">
+            
+            <img :src="posterSrc" :alt="posterAlt"
+                 class="max-h-[82vh] w-auto object-contain block rounded-lg shadow-2xl pointer-events-none"
+                 :style="`transform: translate(${panX}px, ${panY}px) scale(${zoomScale}); transform-origin: center center; transition: ${isDragging ? 'none' : 'transform 0.12s ease-out'};`" />
+        </div>
+
+        <!-- Floating Zoom Toolbar (+ / - / Reset / Unduh) -->
+        <div class="flex items-center justify-center pt-2 z-10">
+            <div class="flex items-center gap-2 bg-teal-950/90 backdrop-blur-md px-5 py-2.5 rounded-full border border-teal-600/40 shadow-2xl">
+                <!-- Tombol Zoom Out (-) -->
+                <button type="button" @click.stop="zoomOut()"
+                        class="w-8 h-8 rounded-full bg-white/10 hover:bg-teal-600 active:scale-95 text-white flex items-center justify-center font-bold text-lg transition shadow"
+                        title="Perkecil (−)">
+                    −
+                </button>
+
+                <!-- Indikator Zoom Level -->
+                <span class="text-xs font-mono font-bold text-teal-300 min-w-[50px] text-center"
+                      x-text="Math.round(zoomScale * 100) + '%'">
+                    100%
+                </span>
+
+                <!-- Tombol Zoom In (+) -->
+                <button type="button" @click.stop="zoomIn()"
+                        class="w-8 h-8 rounded-full bg-white/10 hover:bg-teal-600 active:scale-95 text-white flex items-center justify-center font-bold text-lg transition shadow"
+                        title="Perbesar (+)">
+                    +
+                </button>
+
+                <div class="h-5 w-[1px] bg-white/20 mx-1"></div>
+
+                <!-- Tombol Reset (1:1) -->
+                <button type="button" @click.stop="resetZoom()"
+                        class="px-3 py-1.5 rounded-full bg-white/10 hover:bg-teal-600 active:scale-95 text-white text-xs font-semibold transition"
+                        title="Kembali ke Ukuran Normal">
+                    Reset
+                </button>
+
+                <div class="h-5 w-[1px] bg-white/20 mx-1"></div>
+
+                <!-- Tombol Unduh File -->
+                <a :href="posterSrc" :download="posterDownloadName"
+                   class="px-3 py-1.5 rounded-full bg-teal-600 hover:bg-teal-500 active:scale-95 text-white text-xs font-bold transition flex items-center gap-1 shadow">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <span>Unduh</span>
+                </a>
             </div>
         </div>
     </div>
