@@ -372,7 +372,7 @@
 
                         <!-- JIKA FILE POSTER SUDAH ADA -->
                         <div x-show="posterExists">
-                            <div class="featured-poster-layout" style="align-items: center; gap: 36px;">
+                            <div class="featured-poster-layout" style="grid-template-columns: minmax(0, 55%) minmax(0, 1fr); align-items: center; gap: 36px;">
                                 <!-- Sisi Kiri: Frame Poster 2580 x 3648 -->
                                 <div class="featured-poster-frame" @click="bukaModal()">
                                     <img :src="posterSrc" :alt="posterAlt" class="featured-poster-img" />
