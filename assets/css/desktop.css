@@ -70,6 +70,9 @@ body {
     display: flex; align-items: center; gap: 10px;
     text-decoration: none;
 }
+.nav-brand .brand-logo-img {
+    height: 42px; width: auto; object-fit: contain; flex-shrink: 0;
+}
 .nav-brand .brand-icon {
     width: 40px; height: 40px; border-radius: 12px;
     background: linear-gradient(135deg, var(--teal-700), var(--teal-500));
@@ -562,6 +565,7 @@ body {
     padding: 16px 18px; display: flex; align-items: center; gap: 10px;
 }
 .puskesmas-card .pk-header svg { width: 24px; height: 24px; color: white; flex-shrink: 0; }
+.puskesmas-card .pk-header img { height: 38px; width: auto; object-fit: contain; flex-shrink: 0; background: white; padding: 3px 6px; border-radius: 8px; }
 .puskesmas-card .pk-header h3 { color: white; font-size: 0.9rem; }
 .puskesmas-card .pk-header p  { color: rgba(255,255,255,0.7); font-size: 0.7rem; }
 .pk-body { padding: 18px; }
@@ -680,9 +684,15 @@ body {
     }
 
     .print-kop-logo {
-        width: 36px !important;
-        height: 36px !important;
+        width: 48px !important;
+        height: auto !important;
         flex-shrink: 0 !important;
+    }
+
+    .print-kop-logo img {
+        height: 48px !important;
+        width: auto !important;
+        object-fit: contain !important;
     }
 
     .print-kop-logo svg {
