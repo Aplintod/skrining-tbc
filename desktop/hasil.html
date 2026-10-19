@@ -353,7 +353,7 @@
                         </template>
                     </div>
 
-                    <!-- 4. INFOGRAFIS & POSTER EDUKASI SESUAI DIAGNOSIS (RASIO 1414 x 2000) -->
+                    <!-- 4. INFOGRAFIS & POSTER EDUKASI SESUAI DIAGNOSIS (RASIO 2580 x 3648) -->
                     <div class="card card-pad mb-6">
                         <div class="border-b border-gray-100 pb-3 mb-4 flex justify-between items-center">
                             <div>
@@ -367,13 +367,13 @@
                                 <h3 class="font-bold text-teal-900 text-base" x-text="posterJudul"></h3>
                                 <p class="text-xs text-gray-500 mt-0.5" x-text="posterDeskripsi"></p>
                             </div>
-                            <span class="text-[11px] font-semibold text-gray-400 bg-gray-50 px-3 py-1 rounded-full border border-gray-200">Format: 1414 × 2000 px</span>
+                            <span class="text-[11px] font-semibold text-gray-400 bg-gray-50 px-3 py-1 rounded-full border border-gray-200">Format: 2580 × 3648 px</span>
                         </div>
 
                         <!-- JIKA FILE POSTER SUDAH ADA -->
                         <div x-show="posterExists">
                             <div class="featured-poster-layout" style="align-items: flex-start; gap: 24px;">
-                                <!-- Sisi Kiri: Frame Poster 1414 x 2000 -->
+                                <!-- Sisi Kiri: Frame Poster 2580 x 3648 -->
                                 <div class="featured-poster-frame" style="max-width: 280px; width: 100%; flex-shrink: 0;" @click="bukaModal()">
                                     <img :src="posterSrc" :alt="posterAlt" class="featured-poster-img" />
                                     <div class="poster-zoom-hint">
@@ -427,7 +427,7 @@
                                   x-text="hasil.terduga ? 'Slot Poster A (Hasil: Terduga TB)' : 'Slot Poster B (Hasil: Bukan Terduga TB)'"></span>
                             <h4 class="font-bold text-gray-800 text-sm mb-1" x-text="posterJudul"></h4>
                             <p class="text-xs text-gray-500 max-w-lg mb-3 leading-relaxed">
-                                Area poster edukasi ini telah disiapkan dengan rasio <strong>1414 × 2000 px</strong>. Poster akan otomatis tampil di sini begitu Anda menaruh file poster di:
+                                Area poster edukasi ini telah disiapkan dengan rasio <strong>2580 × 3648 px</strong>. Poster akan otomatis tampil di sini begitu Anda menaruh file poster di:
                             </p>
                             <code class="text-xs bg-white border border-gray-300 px-3 py-1.5 rounded-lg font-mono font-bold text-teal-700 shadow-sm mb-2"
                                   x-text="hasil.terduga ? 'assets/img/poster-terduga.png' : 'assets/img/poster-bukan-terduga.png'"></code>

@@ -215,8 +215,8 @@ small { font-size: 0.75rem; }
     width: 100%;
     height: auto;
     display: block;
-    aspect-ratio: 1414 / 2000;
-    object-fit: contain;
+    aspect-ratio: 2580 / 3648;
+    object-fit: cover;
 }
 .poster-zoom-hint-m {
     position: absolute;
